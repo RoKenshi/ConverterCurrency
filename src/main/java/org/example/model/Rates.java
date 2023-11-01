@@ -1,6 +1,6 @@
 package org.example.model;
 
-public class QouterDTO {
+public class Rates {
     private double usd;
     private double eur;
 
@@ -20,11 +20,4 @@ public class QouterDTO {
         this.eur = eur;
     }
 
-    @Override
-    public String toString() {
-        return "QouterDTO{" +
-                "usd=" + usd +
-                ", eur=" + eur +
-                '}';
-    }
 }

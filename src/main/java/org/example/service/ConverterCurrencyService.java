@@ -1,21 +1,18 @@
 package org.example.service;
 
+import org.example.model.Rates;
+import org.example.model.UserWallet;
 
-import org.example.model.Qouter;
-import org.example.model.QouterDTO;
-import org.example.model.Wallet;
+public class ConverterCurrencyService {
 
-public class ConverterCurrencyService implements Convertable {
+    Rates rates;
 
-    QouterDTO qouterDTO;
-
-    public ConverterCurrencyService(QouterDTO qouterDTO) {
-        this.qouterDTO = qouterDTO;
+    public ConverterCurrencyService(Rates rates) {
+        this.rates = rates;
     }
 
-    @Override
-    public Double convertCurrency(Wallet balance, String currencyType) {
-        Double longNumber = balance.getBalance() / typeCurrency(currencyType);
+    public Double convertCurrency(UserWallet userWallet) {
+        Double longNumber = userWallet.getBalance() / typeCurrency(userWallet.getTypeQouter());
         return roundDouble(longNumber);
     }
 
@@ -28,9 +25,9 @@ public class ConverterCurrencyService implements Convertable {
 
     public Double typeCurrency(String typeCurrency){
         if(typeCurrency.equals("usd")){
-           return qouterDTO.getUsd();
+           return rates.getUsd();
         } else if (typeCurrency.equals("eur")){
-            return qouterDTO.getEur();
+            return rates.getEur();
         } else {
             throw new IllegalArgumentException();
         }
