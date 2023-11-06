@@ -10,10 +10,15 @@ public class RatesGetterFromFile implements RatesGetter {
 
     private static final String FILE_PATH = "./src/main/resources/opt/quoter2.json";
     @Override
-    public Rates getCurrentRates() throws FileNotFoundException {
-        Gson gson = new Gson();
-        BufferedReader br = new BufferedReader(new FileReader(FILE_PATH));
+    public Rates getCurrentRates() {
+        try{
+            Gson gson = new Gson();
+            BufferedReader br = new BufferedReader(new FileReader(FILE_PATH));
+            return gson.fromJson(br, Rates.class);
+        } catch (FileNotFoundException e) {
+            System.out.println(e);
+        }
 
-        return gson.fromJson(br, Rates.class);
+        return null;
     }
 }

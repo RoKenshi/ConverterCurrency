@@ -14,11 +14,12 @@ public class QouterApp {
 
     UserWallet userWallet;
 
-    public QouterApp() {
-        this.ratesGetter = new RatesGetterFromFile();
-        this.userInput = new UserInputImpl();
-        this.userInteraction = new UserInteraction(userInput);
-        this.userWallet = new UserWallet();
+    public QouterApp(RatesGetter ratesGetter, UserInput userInput,
+                     UserInteraction userInteraction, UserWallet userWallet) {
+        this.ratesGetter = ratesGetter;
+        this.userInput = userInput;
+        this.userInteraction = userInteraction;
+        this.userWallet = userWallet;
     }
 
     void run() {
@@ -27,7 +28,9 @@ public class QouterApp {
             userWallet.setBalance(
                     this.userInteraction.getIntUserInput("Введите сумму для конвертации")
             );
-            if (userWallet.getBalance() < 0) throw new NumberFormatException();
+            if (userWallet.getBalance() < 0) {
+                throw new NumberFormatException();
+            }
         } catch (NumberFormatException e) {
             System.out.println("Баланс не может быть отрицательным");
             System.exit(0);
@@ -45,15 +48,13 @@ public class QouterApp {
             System.exit(0);
         }
 
-        try {
+
             Rates rates = ratesGetter.getCurrentRates();
             ConverterCurrencyService converterCurrencyService = new ConverterCurrencyService(rates);
 
             Double answer = converterCurrencyService.convertCurrency(userWallet);
             System.out.println(answer);
 
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+
     }
 }
